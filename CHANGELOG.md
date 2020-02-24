@@ -1,27 +1,32 @@
-### 1.2.4 / 2017-01-28
+### Bayeuxjs 1.0.0 / 2020-02-24
+
+- Add `Client#subscribeWithLazyConnect()` to avoid auto submission of `/meta/connect` messages.
+
+
+### Faye 1.2.4 / 2017-01-28
 
 - Fix `RackAdapter#get_client` that was failing due to a URI error
 - Define `Promise#catch` in a safe way for old browsers
 - Log errors in the Node HTTP transport
 
-### 1.2.3 / 2016-10-11
+### Faye 1.2.3 / 2016-10-11
 
 - Return an error if the `data` field is missing on published messages
 - Fix errors that occur in the new `websocket` util when the browser does not
   support WebSocket
 
 
-### 1.2.2 / 2016-07-18
+### Faye 1.2.2 / 2016-07-18
 
 - Mitigate the HTTPoxy vulnerability: https://httpoxy.org/
 
 
-### 1.2.1 / 2016-06-29
+### Faye 1.2.1 / 2016-06-29
 
 - Fix a missing variable error in `NodeAdapter`
 
 
-### 1.2.0 / 2016-06-26
+### Faye 1.2.0 / 2016-06-26
 
 - Add `client.subscribe().withChannel()` to yield the message channel for
   wildcard subscriptions
@@ -41,7 +46,7 @@
 - Fix bug where flushing large message batches puts promises in an invalid state
 
 
-### 1.1.2 / 2015-07-19
+### Faye 1.1.2 / 2015-07-19
 
 - Allow the `Authorization` header to be used on CORS requests
 - Disallow unused methods like PUT and DELETE on CORS requests
@@ -52,7 +57,7 @@
 - Fix a bug preventing use of the in-process transport in Ruby
 
 
-### 1.1.1 / 2015-02-25
+### Faye 1.1.1 / 2015-02-25
 
 - Make sure the client ID associated with a WebSocket is not dropped, so the
   socket can be closed properly
@@ -61,7 +66,7 @@
 - Remove duplication of the client ID in EventSource URLs
 
 
-### 1.1.0 / 2014-12-22
+### Faye 1.1.0 / 2014-12-22
 
 - Allow the server and client to use WebSocket extensions, for example
   permessage-deflate
@@ -82,16 +87,16 @@
 - Replace `cookiejar` with `tough-cookie` to avoid global variable leaks
 
 
-### 1.0.3 / 2014-07-08
+### Faye 1.0.3 / 2014-07-08
 
 - Make some changes to JSON-P responses to mitigate the Rosetta Flash attack
 - http://miki.it/blog/2014/7/8/abusing-jsonp-with-rosetta-flash/
 
 
-### 1.0.2 -- removed due to error while publishing
+### Faye 1.0.2 -- removed due to error while publishing
 
 
-### 1.0.1 / 2013-12-10
+### Faye 1.0.1 / 2013-12-10
 
 - Add `Adapter#close()` method for gracefully shutting down the server
 - Fix error recover bug in WebSocket that made transport cycle through
@@ -101,7 +106,7 @@
 - Make logging methods public to fix a problem on Ruby 2.1
 
 
-### 1.0.0 / 2013-10-01
+### Faye 1.0.0 / 2013-10-01
 
 - Client changes:
   - Allow clients to be instantiated with URI objects rather than strings
@@ -139,7 +144,7 @@
   - `Faye.logger` can now be a logger object rather than a function
 
 
-### 0.8.9 / 2013-02-26
+### Faye 0.8.9 / 2013-02-26
 
 - Specify ciphers for SSL on Node to mitigate the BEAST attack
 - Mitigate increased risk of socket hang-up errors in Node v0.8.20
@@ -158,27 +163,27 @@
 - Don't parse query strings when checking if a URL is same-origin or not
 
 
-### 0.8.8 / 2013-01-10
+### Faye 0.8.8 / 2013-01-10
 
 - Patch security hole allowing remote execution of arbitrary Server methods
 
 
-### 0.8.7 -- removed due to error while publishing
+### Faye 0.8.7 -- removed due to error while publishing
 
 
-### 0.8.6 / 2012-10-07
+### Faye 0.8.6 / 2012-10-07
 
 - Make sure messages pushed to the client over a socket pass through outgoing
   extensions
 
 
-### 0.8.5 / 2012-09-30
+### Faye 0.8.5 / 2012-09-30
 
 - Fix a bug in `URI.parse()` that caused Faye endpoints to inherit search and
   hash from `window.location`
 
 
-### 0.8.4 / 2012-09-29
+### Faye 0.8.4 / 2012-09-29
 
 - Optimise upgrade process so that WebSocket is tested earlier and the
   connection is cached
@@ -193,7 +198,7 @@
 - Add `charset=utf-8` to response Content-Type headers
 
 
-### 0.8.3 / 2012-07-15
+### Faye 0.8.3 / 2012-07-15
 
 - `Client#subscribe` returns an array of Subscriptions if given an array of
   channels
@@ -205,7 +210,7 @@
 - Stop WebSocket reconnecting after `window.onbeforeunload`
 
 
-### 0.8.2 / 2012-04-12
+### Faye 0.8.2 / 2012-04-12
 
 - Fix replacement of `null` with `{}` in `copyObject()`
 - Make EventSource transport trigger `transport:up/down` events
@@ -214,7 +219,7 @@
 - Handle pre-flight CORS requests from old versions of Safari
 
 
-### 0.8.1 / 2012-03-15
+### Faye 0.8.1 / 2012-03-15
 
 - Make `Publisher#trigger` safe for event listeners that modify the listener
   list
@@ -228,7 +233,7 @@
   messages
 
 
-### 0.8.0 / 2012-02-26
+### Faye 0.8.0 / 2012-02-26
 
 - Extract the Redis engine into a separate library, `faye-redis`
 - Stabilize and document the Engine API so others can write backends
@@ -249,13 +254,13 @@
 - Switch from JSON to Yajl for JSON parsing in Ruby
 
 
-### 0.7.1 / 2011-12-22
+### Faye 0.7.1 / 2011-12-22
 
 - Extension `added()` and `removed()` methods now receive the extended object
 - Detection of WebSockets in RackAdapter is more strict
 
 
-### 0.7.0 / 2011-11-22
+### Faye 0.7.0 / 2011-11-22
 
 - Provide an event API for monitoring engine events on the server side
 - Implement server-side WebSocket connections for improved latency
@@ -266,7 +271,7 @@
 - Add `socket` setting for the Redis engine for connecting through a Unix socket
 
 
-### 0.6.7 / 2011-10-20
+### Faye 0.6.7 / 2011-10-20
 
 - Cache client script in memory and add `ETag` and `Last-Modified` headers
 - Fix bug in Node Redis engine where `undefined` was used if no namespace given
@@ -279,7 +284,7 @@
 - Use the current page protocol by default when parsing relative URIs
 
 
-### 0.6.6 / 2011-09-12
+### Faye 0.6.6 / 2011-09-12
 
 - Add `:key` and `:cert` options to the `Adapter#listen` methods for setting up
   SSL
@@ -287,7 +292,7 @@
 - Fix dependency versions so that Rubygems lets Faye install
 
 
-### 0.6.5 / 2011-08-29
+### Faye 0.6.5 / 2011-08-29
 
 - Fix UTF-8 encoding bugs in draft-75/76 and protocol-8 WebSocket parsers
 - Switch to streaming parser for WebSocket protocol-8
@@ -295,14 +300,14 @@
 - Move `thin_extensions.rb` so it's not on the Rubygems load path
 
 
-### 0.6.4 / 2011-08-18
+### Faye 0.6.4 / 2011-08-18
 
 - Support WebSocket protocol used by Chrome 14 and Firefox 6
 - Fix handling of multibyte characters in WebSocket messages on Node
 - Improve message routing in Node memory engine to avoid false duplicates
 
 
-### 0.6.3 / 2011-07-10
+### Faye 0.6.3 / 2011-07-10
 
 - Use sequential message IDs to reduce memory usage on the client side
 - Only send advice with handshake and connect responses
@@ -315,7 +320,7 @@
 - Improve clean-up of expired clients in Redis engine
 
 
-### 0.6.2 / 2011-06-19
+### Faye 0.6.2 / 2011-06-19
 
 - Add authentication, database selection and namespacing to Redis engine
 - Clean up all client data when removing clients from Redis
@@ -324,13 +329,13 @@
 - Reinstate `faye.client` field in Rack environment
 
 
-### 0.6.1 / 2011-06-06
+### Faye 0.6.1 / 2011-06-06
 
 - Fix `cross-origin-long-polling` support in `RackAdapter`
 - Plug some potential memory leaks in `Memory` engine
 
 
-### 0.6.0 / 2011-05-21
+### Faye 0.6.0 / 2011-05-21
 
 - Extract core logic into the `Engine` class to support swappable backends
 - Introduce a Redis-backed engine to support clustered web front-ends
@@ -344,13 +349,13 @@
 - Automatic integration tests using Terminus and TestSwarm
 
 
-### 0.5.5 / 2011-01-16
+### Faye 0.5.5 / 2011-01-16
 
 - Open a real socket to check for WebSocket usability, not just object detection
 - Catch server-side errors when handshaking with WebSockets
 
 
-### 0.5.4 / 2010-12-19
+### Faye 0.5.4 / 2010-12-19
 
 - Add a `#callback` method to `Subscriptions` to detect when they become active
 - Add `:extensions` option to `RackAdapter` to make it easier to extend
@@ -360,7 +365,7 @@
 - Use exponential backoff to reconnect client-side WebSockets to reduce CPU load
 
 
-### 0.5.3 / 2010-10-21
+### Faye 0.5.3 / 2010-10-21
 
 - Improve detection of `wss:` requirement for secure WebSocket connections
 - Correctly use default ports (80,443) for server-side HTTP connections
@@ -371,18 +376,18 @@
 - Prevent error-adding extensions from breaking the core protocol
 
 
-### 0.5.2 / 2010-08-12
+### Faye 0.5.2 / 2010-08-12
 
 - Support draft-76 of the WebSocket protocol (FF4, Chrome 6)
 - Reduce `Connection::MAX_DELAY` to improve latency
 
 
-### 0.5.1 / 2010-07-21
+### Faye 0.5.1 / 2010-07-21
 
 - Fix a publishing problem in Ruby `LocalTransport`
 
 
-### 0.5.0 / 2010-07-17 
+### Faye 0.5.0 / 2010-07-17 
 
 - Handle multiple event listeners bound to a channel
 - Add extension system for adding domain-specific logic to the protocol
@@ -395,20 +400,20 @@
 - Change Node API for adding Faye service to an HTTP server
 
 
-### 0.3.4 / 2010-06-20
+### Faye 0.3.4 / 2010-06-20
 
 - Stop local clients going into an infinite loop if a subscription block causes
   a reconnect
 
 
-### 0.3.3 / 2010-06-07
+### Faye 0.3.3 / 2010-06-07
 
 - Bring Node APIs up to date with 0.1.97
 - Catch `ECONNREFUSED` errors in Node clients to withstand server outages
 - Refactor the `Server` internals
 
 
-### 0.3.2 / 2010-04-04
+### Faye 0.3.2 / 2010-04-04
 
 - Fix problems with JSON serialization when Prototype, MooTools present
 - Make the client reconnect if it doesn't hear from the server after a timeout
@@ -421,13 +426,13 @@
 - Respond to any URL path under the mount point, not just the exact match
 
 
-### 0.3.1 / 2010-03-09
+### Faye 0.3.1 / 2010-03-09
 
 - Pass client down through Rack stack as `env['faye.client']`
 - Refactor some JavaScript internals to mirror Ruby codebase
 
 
-### 0.3.0 / 2010-03-01
+### Faye 0.3.0 / 2010-03-01
 
 - Add server-side clients for Node.js and Ruby environments
 - Clients support both HTTP and in-process transports
@@ -438,30 +443,30 @@
 - Support new Node APIs from 0.1.29.
 
 
-### 0.2.2 / 2010-02-10
+### Faye 0.2.2 / 2010-02-10
 
 - Kick out requests with malformed JSON as 400s
 
 
-### 0.2.1 / 2010-02-04
+### Faye 0.2.1 / 2010-02-04
 
 - Fix server-side flushing of callback-polling connections
 - Backend can be used cross-domain if running on Node or Thin
 
 
-### 0.2.0 / 2010-02-02
+### Faye 0.2.0 / 2010-02-02
 
 - Port server to JavaScript with an adapter for Node.js
 - Support Thin's async responses in the Ruby version for complete non-blocking
 - Fix some minor client-side bugs in transport choice
 
 
-### 0.1.1 / 2009-07-26
+### Faye 0.1.1 / 2009-07-26
 
 - Fix a broken client build
 
 
-### 0.1.0 / 2009-06-15
+### Faye 0.1.0 / 2009-06-15
 
 - Ruby Bayeux server and Rack adapter
 - Internally evented using EventMachine, web frontend blocks

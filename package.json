@@ -1,18 +1,19 @@
 {
-          "name": "faye",
-          "description": "Simple pub/sub messaging for the web",
+          "name": "bayeuxjs",
+          "description": "Simple pub/sub messaging for the web with backpressure",
           "homepage": "https://faye.jcoglan.com",
-          "author": "James Coglan <jcoglan@gmail.com> (http://jcoglan.com/)",
+          "author": "Danilo S. Morães <greendhulke@gmail.com>",
           "keywords": [
                     "comet",
                     "websocket",
                     "pubsub",
                     "bayeux",
                     "ajax",
-                    "http"
+                    "http",
+                    "backpressure"
           ],
           "license": "Apache-2.0",
-          "version": "1.2.4",
+          "version": "1.0.0",
           "engines": {
                     "node": ">=0.8.0"
           },
@@ -42,7 +43,7 @@
           },
           "repository": {
                     "type": "git",
-                    "url": "git://github.com/faye/faye.git"
+                    "url": "git://github.com/dhulke/bayeuxjs.git"
           },
-          "bugs": "https://github.com/faye/faye/issues"
+          "bugs": "https://github.com/dhulke/bayeuxjs/issues"
 }

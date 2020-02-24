@@ -296,7 +296,7 @@ var Client = Class({ className: 'Client',
   //                                                     * ext
   //                                                     * id
   //                                                     * timestamp
-  subscribeWithLazyConnect: function(onReceiveConnect, channel, callback, context) {
+  subscribeWithLazyConnect: function(channel, callback, onReceiveConnect, context) {
     this.onReceiveConnect = onReceiveConnect;
 
     if (channel instanceof Array)
