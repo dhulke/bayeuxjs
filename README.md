@@ -1,50 +1,61 @@
 # Bayeuxjs
 
-Bayeuxjs is a copy of the Faye tools with backpressure functionalities. It allows you to control the flow of messages by
+Bayeuxjs is a copy of the Faye tools with backpressure functionality. It allows you to control the flow of messages by
 giving the user control over the sending of `/meta/connect` messages through the use of a callback.
 
-In the following sample code, the last callback provided is called only after the last message in the current
-`/meta/connect` message is processed in the first callback. The last callback then decides when to send a new
-`/meta/connect` message by calling its callback argument.
+In the following example, the `afterLastMessage` callback will only be called after the last message in a
+`/meta/connect` message is processed. Messages received in a `/meta/connect` message, are processed in the `onMessage`
+callback. After receiving the first message with `first: true`, the sending of a `/meta/connect` message is delayed by 5
+seconds. You'll notice that the output of the second message is always at least 5 seconds apart from the first one.
 
 ```
 const bayeuxjs = require("bayeuxjs");
 const http = require("http");
 
-// Server config
+// Server setup
 const adapter = new bayeuxjs.NodeAdapter({mount: '/'});
 const server = http.createServer();
 
 adapter.attach(server);
 server.listen(8000);
 
-// Subscriber config
-const subscriber = new faye.Client('http://localhost:8000/');
+// Subscriber setup
+const subscriber = new bayeuxjs.Client('http://localhost:8000/');
 subscriber.disable("websocket");
+
+let receivedFirstMessage = false;
 
 subscriber.subscribeWithLazyConnect(
     '/messages',
-    message => console.log(`Message received: ${message.text}`),
-    lazyConnectCallback => setTimeout(lazyConnectCallback, 5000)
+    function onMessage(message) {
+        console.log(`[${(new Date).toISOString()}] Message received: ${message.text}`)
+        receivedFirstMessage = message.first;
+    },
+    function afterLastMessage(lazyConnectCallback) {
+        setTimeout(lazyConnectCallback, receivedFirstMessage ? 5000 : 0);
+    }
 );
 
-// Publishing a message
+// Publishing messages
 const publisher = new bayeuxjs.Client('http://localhost:8000/');
 publisher.disable("websocket");
 
-await publisher.publish('/messages', {
-    text: 'Hello world'
+publisher.publish('/messages', {
+    first: true,
+    text: 'First Message'
 });
+
+setTimeout(() => {
+    publisher.publish('/messages', {
+        text: 'Secong Message after delayed /meta/connect'
+    });
+}, 1000);
 
 publisher.disconnect();
 ```
 
----
-Faye is a set of tools for simple publish-subscribe messaging between web
-clients. It ships with easy-to-use message routing servers for Node.js and Rack
-applications, and clients that can be used on the server and in the browser.
-
 - Documentation: http://faye.jcoglan.com
 - Mailing list: http://groups.google.com/group/faye-users
-- Bug tracker: http://github.com/faye/faye/issues
-- Source code: http://github.com/faye/faye
+- Bug tracker: http://github.com/dhulke/bayeuxjs/issues
+- Source code: http://github.com/dhulke/bayeuxjs
+- Faye code: http://github.com/faye/faye
