@@ -45,13 +45,13 @@ publisher.publish('/messages', {
     text: 'First Message'
 });
 
-setTimeout(() => {
-    publisher.publish('/messages', {
+setTimeout(async () => {
+    await publisher.publish('/messages', {
         text: 'Secong Message after delayed /meta/connect'
     });
-}, 1000);
 
-publisher.disconnect();
+    publisher.disconnect();
+}, 1000);
 ```
 
 - Documentation: http://faye.jcoglan.com
