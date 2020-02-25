@@ -8,7 +8,7 @@ In the following example, the `afterLastMessage` callback will only be called af
 callback. After receiving the first message with `first: true`, the sending of a `/meta/connect` message is delayed by 5
 seconds. You'll notice that the output of the second message is always at least 5 seconds apart from the first one.
 
-```
+```js
 const bayeuxjs = require("bayeuxjs");
 const http = require("http");
 
