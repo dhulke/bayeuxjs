@@ -61,6 +61,8 @@ var Client = Class({ className: 'Client',
         if (array.indexOf(this._dispatcher._disabled, 'autodisconnect') < 0)
           this.disconnect();
       }, this);
+
+    this.lazy = false;
   },
 
   addWebsocketExtension: function(extension) {
@@ -130,6 +132,61 @@ var Client = Class({ className: 'Client',
     }, this);
   },
 
+  // Request
+  // MUST include:  * channel
+  //                * version
+  //                * supportedConnectionTypes
+  // MAY include:   * minimumVersion
+  //                * ext
+  //                * id
+  //
+  // Success Response                             Failed Response
+  // MUST include:  * channel                     MUST include:  * channel
+  //                * version                                    * successful
+  //                * supportedConnectionTypes                   * error
+  //                * clientId                    MAY include:   * supportedConnectionTypes
+  //                * successful                                 * advice
+  // MAY include:   * minimumVersion                             * version
+  //                * advice                                     * minimumVersion
+  //                * ext                                        * ext
+  //                * id                                         * id
+  //                * authSuccessful
+  lazyHandshake: function(callback, context) {
+    if (this._advice.reconnect === this.NONE) return;
+    if (this._state !== this.UNCONNECTED) return;
+
+    this._state = this.CONNECTING;
+    var self = this;
+
+    this.info('Initiating handshake with ?', this._dispatcher.endpoint.href);
+    this._dispatcher.selectTransport(constants.MANDATORY_CONNECTION_TYPES);
+
+    this._sendMessage({
+      channel:                  Channel.HANDSHAKE,
+      version:                  constants.BAYEUX_VERSION,
+      supportedConnectionTypes: this._dispatcher.getConnectionTypes()
+
+    }, {}, function(response) {
+
+      if (response.successful) {
+        this._state = this.CONNECTED;
+        this._dispatcher.clientId  = response.clientId;
+
+        this._dispatcher.selectTransport(response.supportedConnectionTypes);
+
+        this.info('Handshake successful: ?', this._dispatcher.clientId);
+
+        this.subscribeWithLazyConnect(this._channels.getKeys(), true, this.onReceiveConnect);
+        if (callback) asap(function() { callback.call(context) });
+
+      } else {
+        this.info('Handshake unsuccessful');
+        global.setTimeout(function() { self.lazyHandshake(callback, context) }, this._dispatcher.retry * 1000);
+        this._state = this.UNCONNECTED;
+      }
+    }, this);
+  },
+
   // Request                              Response
   // MUST include:  * channel             MUST include:  * channel
   //                * clientId                           * successful
@@ -176,11 +233,12 @@ var Client = Class({ className: 'Client',
   //                                                     * id
   //                                                     * timestamp
   lazyConnect: function(callback, context) {
+    this.lazy = true;
     if (this._advice.reconnect === this.NONE) return;
     if (this._state === this.DISCONNECTED) return;
 
     if (this._state === this.UNCONNECTED)
-      return this.handshake(function() { this.lazyConnect(callback, context) }, this);
+      return this.lazyHandshake(function() { this.lazyConnect(callback, context) }, this);
 
     this.callback(callback, context);
     if (this._state !== this.CONNECTED) return;
@@ -301,7 +359,7 @@ var Client = Class({ className: 'Client',
 
     if (channel instanceof Array)
       return array.map(channel, function(c) {
-        return this.subscribe(c, callback, context);
+        return this.subscribeWithLazyConnect(c, callback, onReceiveConnect, context);
       }, this);
 
     var subscription = new Subscription(this, channel, callback, context),
@@ -446,7 +504,11 @@ var Client = Class({ className: 'Client',
     if (this._advice.reconnect === this.HANDSHAKE && this._state !== this.DISCONNECTED) {
       this._state = this.UNCONNECTED;
       this._dispatcher.clientId = null;
-      this._cycleConnection();
+      if(this.lazy) {
+        this._lazyCycleConnection();
+      } else {
+        this._cycleConnection();
+      }
     }
   },
 
